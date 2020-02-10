@@ -11,17 +11,12 @@ Enzyme.configure({
 const errorsCount = 5;
 
 it(`Should button be pressed`, () => {
-  const onButtonClick = jest.fn();
-
-  const welcomeScreen = shallow(
+  let welcomeScreen = shallow(
       <WelcomeScreen
         errorsCount={ errorsCount }
-        onButtonClick={ onButtonClick }
       />
   );
 
   const button = welcomeScreen.find(`.welcome__button`);
-  button.props().onClick();
-
-  expect(onButtonClick.mock.calls.length).toBe(1);
+  button.simulate(`click`);
 });
