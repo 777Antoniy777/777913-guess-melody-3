@@ -1,6 +1,7 @@
-
 import React from "react";
 import ReactDOM from "react-dom";
+import {BrowserRouter} from "react-router-dom";
+import questions from "./mocks/questions";
 import App from "./components/app/app";
 
 const Options = {
@@ -8,8 +9,12 @@ const Options = {
 };
 
 ReactDOM.render(
-    <App
-      errorsCount = {Options.ERRORS_COUNT}
-    />,
+    <BrowserRouter>
+      <App
+        // properties
+        errorsCount = {Options.ERRORS_COUNT}
+        questions={ questions }
+      />
+    </BrowserRouter>,
     document.getElementById(`root`)
 );
