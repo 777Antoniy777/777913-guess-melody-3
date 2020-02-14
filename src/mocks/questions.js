@@ -16,25 +16,13 @@ export default [
         id: 3,
         answer: `answer 3`
       },
-    ]
+    ],
+    correctAnswer: `answer 2`,
   },
   {
-    id: 1,
+    id: 2,
     type: `genre`,
     question: `What is genre?`,
-    answers: [
-      {
-        id: 1,
-        answer: `answer 1`
-      },
-      {
-        id: 2,
-        answer: `answer 2`
-      },
-      {
-        id: 3,
-        answer: `answer 3`
-      },
-    ]
+    correctAnswer: [true, false, true, true],
   },
 ];
