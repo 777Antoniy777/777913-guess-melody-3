@@ -2,8 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import ArtistQuestions from "../artist-questions/artist-questions";
 
-const ArtistQuestionScreen = ({artistQuestions}) => {
-  const {question, answers, correctAnswer} = artistQuestions[0];
+const ArtistQuestionScreen = ({question}) => {
+  const {song, answers} = question;
+  const {src} = song;
 
   return (
     <section className="game game--artist">
@@ -28,13 +29,13 @@ const ArtistQuestionScreen = ({artistQuestions}) => {
       </header>
 
       <section className="game__screen">
-        <h2 className="game__title">{ question }</h2>
+        <h2 className="game__title">Кто исполняет эту песню?</h2>
 
         <div className="game__track">
           <div className="track">
             <button className="track__button track__button--play" type="button" />
             <div className="track__status">
-              <audio />
+              <audio src={src} />
             </div>
           </div>
         </div>
@@ -43,7 +44,8 @@ const ArtistQuestionScreen = ({artistQuestions}) => {
 
           {/* Список ответов на вопрос по исполнителю */}
           <ArtistQuestions
-            answers={ answers }
+            // proprties
+            answers={answers}
           />
 
         </form>
@@ -55,7 +57,15 @@ const ArtistQuestionScreen = ({artistQuestions}) => {
 };
 
 ArtistQuestionScreen.propTypes = {
-  artistQuestions: PropTypes.array.isRequired,
+  question: PropTypes.exact({
+    id: PropTypes.number.isRequired,
+    type: PropTypes.string.isRequired,
+    song: PropTypes.exact({
+      artist: PropTypes.string.isRequired,
+      src: PropTypes.string.isRequired,
+    }).isRequired,
+    answers: PropTypes.array.isRequired,
+  }).isRequired,
 };
 
 export default ArtistQuestionScreen;

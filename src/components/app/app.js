@@ -10,58 +10,80 @@ class App extends React.PureComponent {
     super(props);
     this.state = {
       questions: this.props.questions,
+      step: -1,
+      question: null,
       type: ``,
     };
+    this.handleStartButtonClick = this.handleStartButtonClick.bind(this);
   }
 
-  filterArtistQustions() {
-    const {questions} = this.state;
+  handleStartButtonClick(evt) {
+    evt.preventDefault();
 
-    const artistQuestions = questions.filter((elem) => {
-      return elem.type === `artist`;
+    this.setState({
+      step: 0,
     });
-
-    return artistQuestions;
   }
 
-  filterGenreQustions() {
-    const {questions} = this.state;
+  renderGameScreen() {
+    const {questions, step} = this.state;
+    const question = questions[step];
 
-    const genreQuestions = questions.filter((elem) => {
-      return elem.type === `genre`;
-    });
+    if (step === -1 || step >= questions.length) {
+      return (
+        <WelcomeScreen
+          // properties
+          errorsCount={this.props.errorsCount}
+          // handlers
+          onStartButtonClick={this.handleStartButtonClick}
+        />
+      );
+    }
 
-    return genreQuestions;
+    if (question) {
+      const type = question.type;
+
+      if (type === `artist`) {
+        return (
+          <ArtistQuestionScreen
+            // properties
+            question={question}
+          />
+        );
+      } else if (type === `genre`) {
+        return (
+          <GenreQuestionScreen
+            // properties
+            question={question}
+          />
+        );
+      }
+    }
+
+    return false;
   }
 
   render() {
-    const {type} = this.state;
-    const artistQuestions = this.filterArtistQustions();
-    const genreQuestions = this.filterGenreQustions();
+    const {questions} = this.state;
+    const gameScreen = this.renderGameScreen();
 
     return (
       <React.Fragment>
         <Switch>
           <Route path="/" exact>
-            { type === `` &&
-              <WelcomeScreen
-                errorsCount = {this.props.errorsCount}
-              />
-            }
+            {gameScreen}
           </Route>
           <Route path="/artist">
-            { type === `artist` &&
-              <ArtistQuestionScreen
-                artistQuestions={ artistQuestions }
-              />
-            }
+            <ArtistQuestionScreen
+              // propperties
+              question={questions[0]}
+            />
           </Route>
           <Route path="/genre">
-            { type === `genre` &&
-              <GenreQuestionScreen
-                genreQuestions={ genreQuestions }
-              />
-            }
+            <GenreQuestionScreen
+              // propperties
+              question={questions[1]}
+            />
           </Route>
         </Switch>
       </React.Fragment>

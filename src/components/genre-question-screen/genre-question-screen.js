@@ -2,8 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import GenreQuestions from "../genre-questions/genre-questions";
 
-const GenreQuestionScreen = ({genreQuestions}) => {
-  const {question, correctAnswer} = genreQuestions[0];
+const GenreQuestionScreen = ({question}) => {
+  const {genre, answers} = question;
 
   return (
     <section className="game game--genre">
@@ -28,68 +28,19 @@ const GenreQuestionScreen = ({genreQuestions}) => {
       </header>
 
       <section className="game__screen">
-        <h2 className="game__title">{ question }</h2>
+        <h2 className="game__title">Выберите { genre } треки</h2>
 
         <form className="game__tracks">
 
           {/* Список ответов на вопрос по жанру */}
           <GenreQuestions
-            correctAnswer={ correctAnswer }
+            // proprties
+            answers={ answers }
           />
 
           <button className="game__submit button" type="submit">Ответить</button>
 
         </form>
-
-        {/* <form className="game__tracks">
-
-          <div className="track">
-            <button className="track__button track__button--play" type="button" />
-            <div className="track__status">
-              <audio />
-            </div>
-            <div className="game__answer">
-              <input className="game__input visually-hidden" type="checkbox" name="answer" defaultValue="answer-1" id="answer-1" />
-              <label className="game__check" htmlFor="answer-1">Отметить</label>
-            </div>
-          </div>
-
-          <div className="track">
-            <button className="track__button track__button--play" type="button" />
-            <div className="track__status">
-              <audio />
-            </div>
-            <div className="game__answer">
-              <input className="game__input visually-hidden" type="checkbox" name="answer" defaultValue="answer-1" id="answer-2" />
-              <label className="game__check" htmlFor="answer-2">Отметить</label>
-            </div>
-          </div>
-
-          <div className="track">
-            <button className="track__button track__button--pause" type="button" />
-            <div className="track__status">
-              <audio />
-            </div>
-            <div className="game__answer">
-              <input className="game__input visually-hidden" type="checkbox" name="answer" defaultValue="answer-1" id="answer-3" />
-              <label className="game__check" htmlFor="answer-3">Отметить</label>
-            </div>
-          </div>
-
-          <div className="track">
-            <button className="track__button track__button--play" type="button" />
-            <div className="track__status">
-              <audio />
-            </div>
-            <div className="game__answer">
-              <input className="game__input visually-hidden" type="checkbox" name="answer" defaultValue="answer-1" id="answer-4" />
-              <label className="game__check" htmlFor="answer-4">Отметить</label>
-            </div>
-          </div>
-
-          <button className="game__submit button" type="submit">Ответить</button>
-
-        </form> */}
 
       </section>
 
@@ -98,7 +49,12 @@ const GenreQuestionScreen = ({genreQuestions}) => {
 };
 
 GenreQuestionScreen.propTypes = {
-  genreQuestions: PropTypes.array.isRequired,
+  question: PropTypes.exact({
+    id: PropTypes.number.isRequired,
+    type: PropTypes.string.isRequired,
+    genre: PropTypes.string.isRequired,
+    answers: PropTypes.array.isRequired,
+  }).isRequired,
 };
 
 export default GenreQuestionScreen;

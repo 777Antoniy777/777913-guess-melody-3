@@ -1,12 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const GenreQuestion = ({id}) => {
+const GenreQuestion = ({id, src}) => {
   return (
     <div className="track" id={id}>
       <button className="track__button track__button--play" type="button" />
       <div className="track__status">
-        <audio />
+        <audio src={ src } />
       </div>
       <div className="game__answer">
         <input className="game__input visually-hidden" type="checkbox" name="answer" defaultValue="answer-1" id={`answer-${id}`} />
@@ -16,14 +16,17 @@ const GenreQuestion = ({id}) => {
   );
 };
 
-const GenreQuestions = ({correctAnswer}) => {
+const GenreQuestions = ({answers}) => {
   return (
     <React.Fragment>
-      { correctAnswer &&
-        correctAnswer.map((elem, i) =>
+      { answers &&
+        answers.map((elem) =>
           <GenreQuestion
-            key={ ++i }
-            id={ ++i }
+            // propperties
+            key={ elem.id }
+            id={ elem.id }
+            src={ elem.src }
+            genre={ elem.genre }
           />
         )
       }
@@ -33,10 +36,13 @@ const GenreQuestions = ({correctAnswer}) => {
 
 GenreQuestion.propTypes = {
   id: PropTypes.number.isRequired,
+  src: PropTypes.string.isRequired,
 };
 
 GenreQuestions.propTypes = {
-  correctAnswer: PropTypes.array.isRequired,
+  answers: PropTypes.arrayOf(
+      PropTypes.object
+  ).isRequired,
 };
 
 export default GenreQuestions;
