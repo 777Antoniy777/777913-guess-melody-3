@@ -2,9 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import ArtistQuestions from "../artist-questions/artist-questions";
 
-const ArtistQuestionScreen = ({question}) => {
+const ArtistQuestionScreen = ({question, onSetAnswerOption}) => {
   const {song, answers} = question;
-  const {src} = song;
+  const {src, artist} = song;
 
   return (
     <section className="game game--artist">
@@ -46,6 +46,9 @@ const ArtistQuestionScreen = ({question}) => {
           <ArtistQuestions
             // proprties
             answers={answers}
+            question={artist}
+            // handlers
+            onSetAnswerOption={onSetAnswerOption}
           />
 
         </form>

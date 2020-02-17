@@ -2,51 +2,104 @@ import React from "react";
 import PropTypes from "prop-types";
 import GenreQuestions from "../genre-questions/genre-questions";
 
-const GenreQuestionScreen = ({question}) => {
-  const {genre, answers} = question;
+class GenreQuestionScreen extends React.PureComponent {
+  constructor() {
+    super();
+    this.state = {
+      answer: {
+        count: null,
+        answers: [false, false, false, false],
+      }
+    };
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    this.onSetGenreAnswer = this.onSetGenreAnswer.bind(this);
+  }
 
-  return (
-    <section className="game game--genre">
+  handleFormSubmit(evt) {
+    let {question, onSetAnswerOption} = this.props;
+    const {answer} = this.state;
+    evt.preventDefault();
 
-      <header className="game__header">
+    question = question.genre;
+    onSetAnswerOption(question, answer);
+  }
 
-        <a className="game__back" href="#">
-          <span className="visually-hidden">Сыграть ещё раз</span>
-          <img className="game__logo" src="img/melody-logo-ginger.png" alt="Угадай мелодию" />
-        </a>
+  setUsersAnswers(answers, startIndex, deleteCount, genre) {
+    answers.splice(startIndex, deleteCount, genre);
 
-        <svg xmlns="http://www.w3.org/2000/svg" className="timer" viewBox="0 0 780 780">
-          <circle className="timer__line" cx={390} cy={390} r={370} style={{filter: `url(#blur)`, transform: `rotate(-90deg) scaleY(-1)`, transformOrigin: `center`}} />
-        </svg>
+    return answers;
+  }
 
-        <div className="game__mistakes">
-          <div className="wrong" />
-          <div className="wrong" />
-          <div className="wrong" />
-        </div>
+  setAmountAnswer() {
 
-      </header>
+  }
 
-      <section className="game__screen">
-        <h2 className="game__title">Выберите { genre } треки</h2>
+  onSetGenreAnswer(startIndex, deleteCount, genre) {
+    let {answer} = this.state;
+    const {answers} = answer;
+    // answers.splice(startIndex, deleteCount, genre);
 
-        <form className="game__tracks">
+    const count = 2;
+    const usersAnswers = this.setUsersAnswers(answers, startIndex, deleteCount, genre);
+    answer = {
+      count,
+      answers: usersAnswers,
+    };
 
-          {/* Список ответов на вопрос по жанру */}
-          <GenreQuestions
-            // proprties
-            answers={ answers }
-          />
+    this.setState({
+      answer,
+    });
+  }
 
-          <button className="game__submit button" type="submit">Ответить</button>
+  render() {
+    const {question} = this.props;
+    const {genre, answers} = question;
 
-        </form>
+    return (
+      <section className="game game--genre">
+
+        <header className="game__header">
+
+          <a className="game__back" href="#">
+            <span className="visually-hidden">Сыграть ещё раз</span>
+            <img className="game__logo" src="img/melody-logo-ginger.png" alt="Угадай мелодию" />
+          </a>
+
+          <svg xmlns="http://www.w3.org/2000/svg" className="timer" viewBox="0 0 780 780">
+            <circle className="timer__line" cx={390} cy={390} r={370} style={{filter: `url(#blur)`, transform: `rotate(-90deg) scaleY(-1)`, transformOrigin: `center`}} />
+          </svg>
+
+          <div className="game__mistakes">
+            <div className="wrong" />
+            <div className="wrong" />
+            <div className="wrong" />
+          </div>
+
+        </header>
+
+        <section className="game__screen">
+          <h2 className="game__title">Выберите {genre} треки</h2>
+
+          <form className="game__tracks" onSubmit={this.handleFormSubmit} >
+
+            {/* Список ответов на вопрос по жанру */}
+            <GenreQuestions
+              // proprties
+              answers={answers}
+              // handlers
+              onSetGenreAnswer={this.onSetGenreAnswer}
+            />
+
+            <button className="game__submit button" type="submit">Ответить</button>
+
+          </form>
+
+        </section>
 
       </section>
-
-    </section>
-  );
-};
+    );
+  }
+}
 
 GenreQuestionScreen.propTypes = {
   question: PropTypes.exact({
@@ -55,6 +108,7 @@ GenreQuestionScreen.propTypes = {
     genre: PropTypes.string.isRequired,
     answers: PropTypes.array.isRequired,
   }).isRequired,
+  onSetAnswerOption: PropTypes.func.isRequired,
 };
 
 export default GenreQuestionScreen;

@@ -12,17 +12,29 @@ class App extends React.PureComponent {
       questions: this.props.questions,
       step: -1,
       question: null,
-      type: ``,
+      answer: null,
     };
     this.handleStartButtonClick = this.handleStartButtonClick.bind(this);
+    this.onSetAnswerOption = this.onSetAnswerOption.bind(this);
+  }
+
+  onSetAnswerOption(question, answer) {
+    this.setState((state) => ({
+      step: state.step + 1,
+      question,
+      answer,
+    }));
   }
 
   handleStartButtonClick(evt) {
+    const {step, questions} = this.state;
     evt.preventDefault();
 
-    this.setState({
-      step: 0,
-    });
+    if (step === -1 || step >= questions.length) {
+      this.setState({
+        step: 0,
+      });
+    }
   }
 
   renderGameScreen() {
@@ -35,7 +47,7 @@ class App extends React.PureComponent {
           // properties
           errorsCount={this.props.errorsCount}
           // handlers
-          onStartButtonClick={this.handleStartButtonClick}
+          handleStartButtonClick={this.handleStartButtonClick}
         />
       );
     }
@@ -48,6 +60,8 @@ class App extends React.PureComponent {
           <ArtistQuestionScreen
             // properties
             question={question}
+            // handlers
+            onSetAnswerOption={this.onSetAnswerOption}
           />
         );
       } else if (type === `genre`) {
@@ -55,6 +69,8 @@ class App extends React.PureComponent {
           <GenreQuestionScreen
             // properties
             question={question}
+            // handlers
+            onSetAnswerOption={this.onSetAnswerOption}
           />
         );
       }

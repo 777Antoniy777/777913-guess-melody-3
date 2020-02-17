@@ -1,10 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const ArtistQuestion = ({id, picture, artist}) => {
+const ArtistQuestion = ({id, picture, artist, question, onSetAnswerOption}) => {
+  const handleRadioButtonChange = (evt) => {
+    evt.preventDefault();
+    const answer = artist;
+
+    onSetAnswerOption(question, answer);
+  };
+
   return (
     <div className="artist" id={id}>
-      <input className="artist__input visually-hidden" type="radio" name="answer" defaultValue="artist-1" id={`answer-${id}`} />
+      <input className="artist__input visually-hidden" onChange={handleRadioButtonChange} type="radio" name="answer" defaultValue="artist-1" id={`answer-${id}`} />
       <label className="artist__name" htmlFor={`answer-${id}`}>
         <img className="artist__picture" src={picture} alt={artist} />
         {artist}
@@ -13,17 +20,20 @@ const ArtistQuestion = ({id, picture, artist}) => {
   );
 };
 
-const ArtistQuestions = ({answers}) => {
+const ArtistQuestions = ({answers, question, onSetAnswerOption}) => {
   return (
     <React.Fragment>
       { answers &&
         answers.map((elem) =>
           <ArtistQuestion
             // propperties
-            key={ elem.id }
-            id={ elem.id }
-            picture={ elem.picture }
-            artist={ elem.artist }
+            key={elem.id}
+            id={elem.id}
+            picture={elem.picture}
+            artist={elem.artist}
+            question={question}
+            // handlers
+            onSetAnswerOption={onSetAnswerOption}
           />
         )
       }

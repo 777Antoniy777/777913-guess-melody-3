@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const WelcomeScreen = ({errorsCount, onStartButtonClick}) => {
+const WelcomeScreen = ({errorsCount, handleStartButtonClick}) => {
   return (
     <section className="welcome">
 
@@ -9,7 +9,7 @@ const WelcomeScreen = ({errorsCount, onStartButtonClick}) => {
         <img src="img/melody-logo.png" alt="Угадай мелодию" width="186" height="83"></img>
       </div>
 
-      <button className="welcome__button" onClick={ onStartButtonClick }>
+      <button className="welcome__button" onClick={handleStartButtonClick}>
         <span className="visually-hidden">Начать игру</span>
       </button>
 
@@ -33,7 +33,7 @@ WelcomeScreen.defaultProps = {
 
 WelcomeScreen.propTypes = {
   errorsCount: PropTypes.number.isRequired,
-  onStartButtonClick: PropTypes.func.isRequired,
+  handleStartButtonClick: PropTypes.func.isRequired,
 };
 
 export default WelcomeScreen;
