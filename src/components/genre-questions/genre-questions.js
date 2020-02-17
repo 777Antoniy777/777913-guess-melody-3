@@ -49,10 +49,10 @@ import PropTypes from "prop-types";
 const GenreQuestion = ({id, index, src, value, genre, onSetGenreValues}) => {
   const handleCheckboxChange = (evt) => {
     const target = evt.target;
-    const value = target.checked;
-    evt.preventDefault();
+    const val = target.checked;
+    console.log(target, target.checked)
 
-    onSetGenreValues(index, 1, value);
+    onSetGenreValues(index, 1, val);
   };
 
   return (
@@ -66,7 +66,7 @@ const GenreQuestion = ({id, index, src, value, genre, onSetGenreValues}) => {
           id={`answer-${id}`}
           className="game__input visually-hidden"
           type="checkbox"
-          value={genre}
+          value={`answer-${id}`}
           name="answer"
           checked={value}
           onChange={handleCheckboxChange}
@@ -103,6 +103,7 @@ GenreQuestion.propTypes = {
   id: PropTypes.number.isRequired,
   index: PropTypes.number.isRequired,
   src: PropTypes.string.isRequired,
+  value: PropTypes.bool.isRequired,
   genre: PropTypes.string.isRequired,
   onSetGenreValues: PropTypes.func.isRequired,
 };
@@ -111,6 +112,7 @@ GenreQuestions.propTypes = {
   answers: PropTypes.arrayOf(
       PropTypes.object
   ).isRequired,
+  values: PropTypes.array.isRequired,
   onSetGenreValues: PropTypes.func.isRequired,
 };
 
