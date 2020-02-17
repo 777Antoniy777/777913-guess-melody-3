@@ -6,52 +6,37 @@ class GenreQuestionScreen extends React.PureComponent {
   constructor() {
     super();
     this.state = {
-      answer: {
-        count: null,
-        answers: [false, false, false, false],
-      }
+      values: [false, false, false, false],
     };
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
-    this.onSetGenreAnswer = this.onSetGenreAnswer.bind(this);
+    this.onSetGenreValues = this.onSetGenreValues.bind(this);
   }
 
   handleFormSubmit(evt) {
     let {question, onSetAnswerOption} = this.props;
-    const {answer} = this.state;
+    const {values: answer} = this.state;
     evt.preventDefault();
 
     question = question.genre;
     onSetAnswerOption(question, answer);
   }
 
-  setUsersAnswers(answers, startIndex, deleteCount, genre) {
-    answers.splice(startIndex, deleteCount, genre);
-
-    return answers;
-  }
-
-  setAmountAnswer() {
-
-  }
-
-  onSetGenreAnswer(startIndex, deleteCount, genre) {
-    let {answer} = this.state;
-    const {answers} = answer;
-    // answers.splice(startIndex, deleteCount, genre);
-
-    const count = 2;
-    const usersAnswers = this.setUsersAnswers(answers, startIndex, deleteCount, genre);
-    answer = {
-      count,
-      answers: usersAnswers,
-    };
+  onSetGenreValues(startIndex, deleteCount, value) {
+    const {values} = this.state;
+    values.splice(startIndex, deleteCount, value);
+    console.log(values)
 
     this.setState({
-      answer,
+      values,
     });
+
+    // this.setState({
+    //   values: [...values.slice(0, startIndex), value, ...values.slice(startIndex + 1)],
+    // });
   }
 
   render() {
+    const {values} = this.state;
     const {question} = this.props;
     const {genre, answers} = question;
 
@@ -86,8 +71,9 @@ class GenreQuestionScreen extends React.PureComponent {
             <GenreQuestions
               // proprties
               answers={answers}
+              values={values}
               // handlers
-              onSetGenreAnswer={this.onSetGenreAnswer}
+              onSetGenreValues={this.onSetGenreValues}
             />
 
             <button className="game__submit button" type="submit">Ответить</button>

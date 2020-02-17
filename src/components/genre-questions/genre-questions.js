@@ -1,28 +1,86 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const GenreQuestion = ({id, index, src, genre, onSetGenreAnswer}) => {
-  const handleCheckBoxChange = (evt) => {
+// const GenreQuestion = ({id, index, src, value, genre, onSetGenreValues}) => {
+//   const handleCheckboxChange = (evt) => {
+//     const target = evt.target.checked;
+//     // console.log(vvalue)
+//     evt.preventDefault();
+
+//     onSetGenreValues(index, 1, target);
+//   };
+
+//   return (
+//     <div className="track" id={id}>
+//       <button className="track__button track__button--play" type="button" />
+//       <div className="track__status">
+//         <audio src={src} />
+//       </div>
+//       <div className="game__answer">
+//         <input
+//           id={`answer-${id}`}
+//           className="game__input visually-hidden"
+//           type="checkbox"
+//           value={genre}
+//           name="answer"
+//           checked={value}
+//           onChange={handleCheckboxChange}
+//         />
+//         <label className="game__check" htmlFor={`answer-${id}`}>Отметить</label>
+//       </div>
+//     </div>
+//   );
+// };
+
+class GenreQuestion extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: false,
+    };
+    this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
+  }
+
+  handleCheckboxChange(evt) {
+    const target = evt.target;
+    const value = target.checked;
     evt.preventDefault();
 
-    onSetGenreAnswer(index, 1, genre);
-  };
+    this.setState((state) => ({
+      value,
+    }));
 
-  return (
-    <div className="track" id={id}>
-      <button className="track__button track__button--play" type="button" />
-      <div className="track__status">
-        <audio src={src} />
-      </div>
-      <div className="game__answer">
-        <input className="game__input visually-hidden" onChange={handleCheckBoxChange} type="checkbox" name="answer" defaultValue="answer-1" id={`answer-${id}`} />
-        <label className="game__check" htmlFor={`answer-${id}`}>Отметить</label>
-      </div>
-    </div>
-  );
-};
+    // onSetGenreValues(index, 1, this.state.value);
+  }
 
-const GenreQuestions = ({answers, onSetGenreAnswer}) => {
+  render() {
+    const {value} = this.state;
+    const {id, src, genre} = this.props;
+
+    return (
+      <div className="track" id={id}>
+        <button className="track__button track__button--play" type="button" />
+        <div className="track__status">
+          <audio src={src} />
+        </div>
+        <div className="game__answer">
+          <input
+            id={`answer-${id}`}
+            className="game__input visually-hidden"
+            type="checkbox"
+            value={genre}
+            name="answer"
+            checked={value}
+            onClick={this.handleCheckboxChange}
+          />
+          <label className="game__check" htmlFor={`answer-${id}`}>Отметить</label>
+        </div>
+      </div>
+    );
+  }
+}
+
+const GenreQuestions = ({answers, values, onSetGenreValues}) => {
   return (
     <React.Fragment>
       { answers &&
@@ -34,8 +92,9 @@ const GenreQuestions = ({answers, onSetGenreAnswer}) => {
             index={i}
             src={elem.src}
             genre={elem.genre}
+            value={values[i]}
             // handlers
-            onSetGenreAnswer={onSetGenreAnswer}
+            onSetGenreValues={onSetGenreValues}
           />
         )
       }
@@ -48,14 +107,14 @@ GenreQuestion.propTypes = {
   index: PropTypes.number.isRequired,
   src: PropTypes.string.isRequired,
   genre: PropTypes.string.isRequired,
-  onSetGenreAnswer: PropTypes.func.isRequired,
+  onSetGenreValues: PropTypes.func.isRequired,
 };
 
 GenreQuestions.propTypes = {
   answers: PropTypes.arrayOf(
       PropTypes.object
   ).isRequired,
-  onSetGenreAnswer: PropTypes.func.isRequired,
+  onSetGenreValues: PropTypes.func.isRequired,
 };
 
 export default GenreQuestions;
