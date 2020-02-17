@@ -1,84 +1,81 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-// const GenreQuestion = ({id, index, src, value, genre, onSetGenreValues}) => {
-//   const handleCheckboxChange = (evt) => {
-//     const target = evt.target.checked;
-//     // console.log(vvalue)
-//     evt.preventDefault();
+// correct
+// class GenreQuestion extends React.PureComponent {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       value: false,
+//     };
+//     this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
+//   }
 
-//     onSetGenreValues(index, 1, target);
-//   };
+//   handleCheckboxChange() {
+//     this.setState((state) => ({
+//       value: !state.value,
+//     }));
 
-//   return (
-//     <div className="track" id={id}>
-//       <button className="track__button track__button--play" type="button" />
-//       <div className="track__status">
-//         <audio src={src} />
+//     // onSetGenreValues(index, 1, this.state.value);
+//   }
+
+//   render() {
+//     const {value} = this.state;
+//     const {id, src, genre} = this.props;
+
+//     return (
+//       <div className="track" id={id}>
+//         <button className="track__button track__button--play" type="button" />
+//         <div className="track__status">
+//           <audio src={src} />
+//         </div>
+//         <div className="game__answer">
+//           <input
+//             id={`answer-${id}`}
+//             className="game__input visually-hidden"
+//             type="checkbox"
+//             value={genre}
+//             name="answer"
+//             checked={value}
+//             onChange={this.handleCheckboxChange}
+//           />
+//           <label className="game__check" htmlFor={`answer-${id}`}>Отметить</label>
+//         </div>
 //       </div>
-//       <div className="game__answer">
-//         <input
-//           id={`answer-${id}`}
-//           className="game__input visually-hidden"
-//           type="checkbox"
-//           value={genre}
-//           name="answer"
-//           checked={value}
-//           onChange={handleCheckboxChange}
-//         />
-//         <label className="game__check" htmlFor={`answer-${id}`}>Отметить</label>
-//       </div>
-//     </div>
-//   );
-// };
+//     );
+//   }
+// }
 
-class GenreQuestion extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: false,
-    };
-    this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
-  }
-
-  handleCheckboxChange(evt) {
+const GenreQuestion = ({id, index, src, value, genre, onSetGenreValues}) => {
+  const handleCheckboxChange = (evt) => {
     const target = evt.target;
     const value = target.checked;
     evt.preventDefault();
 
-    this.setState((state) => ({
-      value,
-    }));
+    onSetGenreValues(index, 1, value);
+  };
 
-    // onSetGenreValues(index, 1, this.state.value);
-  }
-
-  render() {
-    const {value} = this.state;
-    const {id, src, genre} = this.props;
-
-    return (
-      <div className="track" id={id}>
-        <button className="track__button track__button--play" type="button" />
-        <div className="track__status">
-          <audio src={src} />
-        </div>
-        <div className="game__answer">
-          <input
-            id={`answer-${id}`}
-            className="game__input visually-hidden"
-            type="checkbox"
-            value={genre}
-            name="answer"
-            checked={value}
-            onClick={this.handleCheckboxChange}
-          />
-          <label className="game__check" htmlFor={`answer-${id}`}>Отметить</label>
-        </div>
+  return (
+    <div className="track" id={id}>
+      <button className="track__button track__button--play" type="button" />
+      <div className="track__status">
+        <audio src={src} />
       </div>
-    );
-  }
-}
+      <div className="game__answer">
+        <input
+          id={`answer-${id}`}
+          className="game__input visually-hidden"
+          type="checkbox"
+          value={genre}
+          name="answer"
+          checked={value}
+          onChange={handleCheckboxChange}
+        />
+        <label className="game__check" htmlFor={`answer-${id}`}>Отметить</label>
+      </div>
+    </div>
+  );
+};
 
 const GenreQuestions = ({answers, values, onSetGenreValues}) => {
   return (

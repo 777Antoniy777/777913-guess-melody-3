@@ -24,7 +24,7 @@ class GenreQuestionScreen extends React.PureComponent {
   onSetGenreValues(startIndex, deleteCount, value) {
     const {values} = this.state;
     values.splice(startIndex, deleteCount, value);
-    console.log(values)
+    console.log(values, value)
 
     this.setState({
       values,
